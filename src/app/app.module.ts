@@ -12,6 +12,7 @@ import { UsersListComponent } from './users/users-list/users-list.component';
 import { UsersDetailComponent } from './users/users-detail/users-detail.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabComponent } from './tab/tab.component';
+import { ValidationService } from './services/validate.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { TabComponent } from './tab/tab.component';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ValidationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
