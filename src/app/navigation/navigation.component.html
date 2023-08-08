@@ -1,0 +1,18 @@
+<nav class="text-gray-400 my-4">
+    <div class="container mx-auto">
+        <div class="flex items-center space-x-2">
+            <a routerLink="/" class="text-lg font-semibold">Home</a>
+            <ng-container *ngFor="let step of steps; let last = last">
+                <i class="fas fa-chevron-right"></i>
+                <a [routerLink]="step.link" 
+                class="text-lg font-semibold"
+                [routerLinkActive]="'text-gray-600'"
+                >{{ step.label }}
+                </a>
+            </ng-container>
+        </div>
+    </div>
+</nav>
+<div class="container mx-auto my-10">
+    <h1 class="text-4xl font-semibold">{{ currentPage }}</h1>
+  </div>
