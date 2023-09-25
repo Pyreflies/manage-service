@@ -1,1 +1,77 @@
-<p>roles works!</p>
+<div class="flex justify-end">
+    <button class="btn btn-wide btn-primary mb-5" routerLink="/roles/roles-setting">
+      <i class="fa fa-plus" aria-hidden="true"></i>Add Roles
+    </button>
+  </div>
+  <div class="relative">
+    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+      <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+        fill="none" viewBox="0 0 20 20">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+      </svg>
+    </div>
+    <input type="search" id="default-search" [(ngModel)]="searchQuery" (keyup.enter)="search()"
+      class="block border text-sm rounded-lg w-full p-4 pl-10 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+      placeholder="Search..." required />
+    <button type="submit" (click)="search()"
+      class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+      Search
+    </button>
+  </div>
+  
+  <div class="w-full pt-10">
+    <div class="bg-gray-200 font-bold grid grid-cols-5 rounded-t-lg">
+      <div class="p-4">ID</div>
+      <div class="p-4">Name</div>
+      <div class="p-4">Status</div>
+      <div class="p-4 text-end">Action</div>
+    </div>
+  
+    <div *ngFor="
+        let roles of roles
+          | paginate : { itemsPerPage: itemsPerPage, currentPage: currentPage }
+      " class="odd:bg-gray-100 grid grid-cols-5 items-center">
+      <div class="p-4">{{ roles.id }}</div>
+      <div class="p-4">{{ roles.roles }}</div>
+      <div class="p-4 justify-items-center flex justify-start">
+        <div class="rounded-full py-1 px-3 w-100" [ngClass]="{
+            'text-white bg-green-500 ': roles.status === 'Active',
+            'text-gray-800': roles.status === 'Inactive'
+          }" [ngStyle]="{
+            border: roles.status === 'Inactive' ? '1px solid #1F2937' : ''
+          }">
+          <i class="far fa-dot-circle"></i> {{ roles.status }}
+        </div>
+      </div>
+      <div class="p-4">
+        <div class="grid justify-items-end">
+          <div class="dropdown dropdown-left">
+            <i tabindex="0" class="fa-solid fa-gear p-2 bg-gray-200 rounded-full cursor-pointer"></i>
+            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+              <li>
+                <a routerLink="/users/users-setting">
+                  <i class="fa-solid fa-eye"></i> Detail
+                </a>
+              </li>
+              <li>
+                <a routerLink="/users/users-setting">
+                  <i class="fa-solid fa-pen-to-square"></i> Edit
+                </a>
+              </li>
+              <li>
+                <a (click)="delete()">
+                  <i class="fa-solid fa-trash-can"></i> Delete
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+<div class="mt-5 flex justify-end">
+    <pagination-controls (pageChange)="currentPage = $event" previousLabel="" nextLabel=""></pagination-controls>
+  </div>

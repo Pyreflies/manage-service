@@ -18,14 +18,22 @@
     class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
     Search
   </button>
+  <button type="submit" (click)="clear()"
+    class="text-white absolute right-24 bottom-2.5 bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-400 dark:hover:bg-gray-500 dark:focus:ring-gray-600">
+    Clear
+  </button>
 </div>
 
 <div class="w-full pt-10">
   <div class="bg-gray-200 font-bold grid grid-cols-5 rounded-t-lg">
-    <div class="p-4">ID</div>
-    <div class="p-4">Name</div>
-    <div class="p-4">Email</div>
-    <div class="p-4">Status</div>
+    <div class="p-4 cursor-pointer" (click)="sortBy('id')">ID <i class="fas fa-sort" *ngIf="sortedColumn === 'id'"></i>
+    </div>
+    <div class="p-4 cursor-pointer" (click)="sortBy('name')">Name <i class="fas fa-sort"
+        *ngIf="sortedColumn === 'name'"></i></div>
+    <div class="p-4 cursor-pointer" (click)="sortBy('email')">Email <i class="fas fa-sort"
+        *ngIf="sortedColumn === 'email'"></i></div>
+    <div class="p-4 cursor-pointer" (click)="sortBy('status')">Status <i class="fas fa-sort"
+        *ngIf="sortedColumn === 'status'"></i></div>
     <div class="p-4 text-end">Action</div>
   </div>
 
@@ -38,12 +46,12 @@
     <div class="p-4">{{ user.email }}</div>
     <div class="p-4 justify-items-center flex justify-start">
       <div class="rounded-full py-1 px-3 w-100" [ngClass]="{
-          'text-white bg-green-500 ': user.status === 'Active',
-          'text-gray-800': user.status === 'Inactive'
+          'text-white bg-green-500': user.status === 'A',
+          'text-gray-800': user.status === 'I'
         }" [ngStyle]="{
-          border: user.status === 'Inactive' ? '1px solid #1F2937' : ''
+          'border': user.status === 'I' ? '1px solid #1F2937' : 'none'
         }">
-        <i class="far fa-dot-circle"></i> {{ user.status }}
+        <i class="far fa-dot-circle"></i> {{ user.status === 'A' ? 'Active' : 'Inactive' }}
       </div>
     </div>
     <div class="p-4">
@@ -52,7 +60,7 @@
           <i tabindex="0" class="fa-solid fa-gear p-2 bg-gray-200 rounded-full cursor-pointer"></i>
           <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
             <li>
-              <a routerLink="/users/users-setting">
+              <a routerLink="/users/users-setting" (click)="setUser(user.id)">
                 <i class="fa-solid fa-eye"></i> Detail
               </a>
             </li>

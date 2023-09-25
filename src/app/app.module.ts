@@ -14,6 +14,7 @@ import { TabComponent } from './pages/tab/tab.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UserDetailComponent } from './components/users/user-detail/user-detail.component';
 import { RolesComponent } from './components/roles/roles.component';
+import { RoleDetailComponent } from './components/roles/role-detail/role-detail.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { RolesComponent } from './components/roles/roles.component';
     TabComponent,
     UserDetailComponent,
     RolesComponent,
+    RoleDetailComponent,
   ],
   imports: [
     BrowserModule,

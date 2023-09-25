@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Users } from 'src/app/models/users.model';
+import { Users,_user } from 'src/app/models/users.model';
+import { UserService } from 'src/app/services/cservice/user.service';
 import { SweetAlertService } from 'src/app/services/sweet-alert.service';
 
 @Component({
@@ -9,48 +10,64 @@ import { SweetAlertService } from 'src/app/services/sweet-alert.service';
 })
 export class UsersComponent {
 
-  constructor(public sweetAlertService: SweetAlertService){}
-  users: Users[] = [
-    {id: '1', name: 'John Doe', email: 'john@example.com',status : 'Active'},
-    {id: '2', name: 'Jame Smith', email: 'jame@example.com',status : 'Inactive'},
-    {id: '3', name: 'Helen Coloe', email: 'helen@example.com',status : 'Inactive'},
-    {id: '4', name: 'Sky Lorent', email: 'sky@example.com',status : 'Active'},
-    {id: '5', name: 'John Doe', email: 'john@example.com',status : 'Active'},
-    {id: '6', name: 'Jame Smith', email: 'jame@example.com',status : 'Inactive'},
-    {id: '7', name: 'Helen Coloe', email: 'helen@example.com',status : 'Inactive'},
-    {id: '8', name: 'Sky Lorent', email: 'sky@example.com',status : 'Active'},
-    
-
-
-  ]; // Placeholder for users data
+  constructor(public sweetAlertService: SweetAlertService,private userService: UserService) { }
+  users = _user;
+  // Placeholder for users data
   usersBase: Users[] = this.users;
-  selectedUser: any = null; // Placeholder for the selected user
+  selectedUser: Users[] = this.users; // Placeholder for the selected user
   searchQuery: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 5;
 
+  sortedColumn: keyof Users | null = null;
+  isAscending = true;
+
   search(): void {
     if (this.searchQuery) {
-      this.users = this.users.filter(user =>  user.id.toLowerCase().includes(this.searchQuery.toLowerCase()));
+      this.users = this.users.filter(user => user.name.toLowerCase().includes(this.searchQuery.toLowerCase().trim()) || user.email.toLowerCase().includes(this.searchQuery.toLowerCase().trim()));
     } else {
       this.users = this.usersBase //this.userService.getUsers();
     }
     this.currentPage = 1; // Reset to first page after search
   }
-
+  clear(): void{
+    this.searchQuery = ""; 
+    this.users = this.usersBase;
+  }
   // get paginatedUsers(): any[] {
   //   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
   //   const endIndex = startIndex + this.itemsPerPage;
   //   return this.users.slice(startIndex, endIndex);
   // }
-  delete(){
+  delete() {
     this.sweetAlertService.confirm({
-      title : 'Warning',
-      text : 'Are you sure you want to delete'}
+      title: 'Warning',
+      text: 'Are you sure you want to delete'
+    }
     ).then((result) => {
       if (result.isConfirmed) {
-        this.sweetAlertService.success('Successfully deleted','Your data has been deleted')
-      }})
+        this.sweetAlertService.success('Successfully deleted', 'Your data has been deleted')
+      }
+    })
+  }
+  // sort data
+  sortBy(column: keyof Users) {
+    if (this.sortedColumn === column) {
+      this.isAscending = !this.isAscending;
+    } else {
+      this.sortedColumn = column;
+      this.isAscending = true;
+    }
+
+    // Sort the users array based on the selected column and direction
+    this.users.sort((a, b) => {
+      const aValue = a[column];
+      const bValue = b[column];
+      return this.isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+    });
+  }
+  setUser(id :string) : void{
+    this.userService.setUserId(id);
   }
   // Create a new user
   createUser() {
@@ -58,14 +75,14 @@ export class UsersComponent {
   }
 
   // Edit a user
-  editUser(user: any) {
-    this.selectedUser = user;
+  editUser(user: keyof Users) {
+   // this.selectedUser = user;
   }
 
   // Update a user
   updateUser() {
     // Implement update logic
-    this.selectedUser = null;
+    //this.selectedUser = null;
   }
 
   // Delete a user
