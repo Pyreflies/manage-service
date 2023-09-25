@@ -1,0 +1,134 @@
+<aside
+    class="sidebar bg-gray-800 text-white h-screen w-64 fixed top-0 left-0 overflow-y-auto transition-all duration-300 ease-in-out"
+    [ngClass]="{ 'w-64':(sidebarService.isHidden$ | async), 'w-16': !(sidebarService.isHidden$ | async)}">
+    <!-- Logo and title -->
+    <div class="p-4" (click)="toggleSidebar()">
+        <i class="fa-solid fa-bars mt-5 transition-all duration-300 ease-in-out" 
+            [ngClass]="{ 'mr-2':(sidebarService.isHidden$ | async), 'mx-2': !(sidebarService.isHidden$ | async)}"></i>
+        <!-- <h1 class="text-2xl font-semibold transition-all  ease-in-out" (click)="toggleSidebar()" [ngClass]="{ 'visible': !isHidden, 'invisible':(sidebarService.isHidden$ | async) }">
+      Management Routing
+    </h1> -->
+    </div>
+
+    <!-- Main navigation -->
+    <nav class="py-2">
+        <ul class="space-y-1">
+            <li class="px-4 py-2">
+                <a routerLink="/" class="flex items-center text-gray-400 hover:text-white"
+                    (click)="setToggleSidebar(false)">
+                    <i class="fas fa-home transition-all duration-300 ease-in-out"
+                        [ngClass]="{ 'mr-2': (sidebarService.isHidden$ | async), 'mx-2': !(sidebarService.isHidden$ | async) }"></i>
+                    <p class="transition-all ease-in-out"
+                        [ngClass]="{ visible:(sidebarService.isHidden$ | async), invisible: !(sidebarService.isHidden$ | async)}">
+                        Dashboard
+                    </p>
+                </a>
+            </li>
+            <li class="px-4 py-2">
+                <a routerLink="/users" class="flex items-center text-gray-400 hover:text-white"
+                    (click)="setToggleSidebar(false)">
+                    <i class="fas fa-user-circle transition-all duration-300 ease-in-out"
+                        [ngClass]="{ 'mr-2':(sidebarService.isHidden$ | async), 'mx-2': !(sidebarService.isHidden$ | async)}"></i>
+                    <p class="transition-all ease-in-out"
+                        [ngClass]="{ visible:(sidebarService.isHidden$ | async), invisible: !(sidebarService.isHidden$ | async)}">
+                        Users
+                    </p>
+                </a>
+            </li>
+            <li class="px-4 py-2">
+                <a routerLink="/groups" class="flex items-center text-gray-400 hover:text-white"
+                    (click)="setToggleSidebar(false)">
+                    <i class="fas fa-users transition-all duration-300 ease-in-out"
+                        [ngClass]="{ 'mr-2':(sidebarService.isHidden$ | async), 'mx-2': !(sidebarService.isHidden$ | async)}"></i>
+                    <p class="transition-all ease-in-out"
+                        [ngClass]="{ visible:(sidebarService.isHidden$ | async), invisible: !(sidebarService.isHidden$ | async)}">
+                        Groups
+                    </p>
+                </a>
+            </li>
+            <li class="px-4 py-2">
+                <a href="#" class="flex items-center text-gray-400 hover:text-white" (click)="setToggleSidebar(false)">
+                    <i class="fas fa-id-card transition-all duration-300 ease-in-out"
+                        [ngClass]="{ 'mr-2':(sidebarService.isHidden$ | async), 'mx-2': !(sidebarService.isHidden$ | async)}"></i>
+                    <p class="transition-all ease-in-out"
+                        [ngClass]="{ visible:(sidebarService.isHidden$ | async), invisible: !(sidebarService.isHidden$ | async)}">
+                        Roles
+                    </p>
+                </a>
+            </li>
+            <li class="px-4 py-2">
+                <a href="#" class="flex items-center text-gray-400 hover:text-white" (click)="setToggleSidebar(false)">
+                    <i class="fas fa-user-shield transition-all duration-300 ease-in-out"
+                        [ngClass]="{ 'mr-2':(sidebarService.isHidden$ | async), 'mx-2': !(sidebarService.isHidden$ | async)}"></i>
+                    <p class="transition-all ease-in-out"
+                        [ngClass]="{ visible:(sidebarService.isHidden$ | async), invisible: !(sidebarService.isHidden$ | async)}">
+                        Permissions
+                    </p>
+                </a>
+            </li>
+            <!-- Add more navigation items here -->
+        </ul>
+    </nav>
+
+    <!-- Recent projects -->
+    <!-- <div class="px-4 py-2 mt-6">
+            <h2 class="text-lg font-semibold mb-2">Recent Projects</h2>
+            <ul class="space-y-1 text-gray-400 hover:text-whit">
+                <li>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-folder  mr-2"></i>
+                        Project 1
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-folder  mr-2"></i>
+                        Project 2
+                    </a>
+                </li>
+                
+            </ul>
+        </div> -->
+
+    <!-- Bottom Sidebar -->
+    <div class="fixed bottom-0 left-0 w-64 p-4 bg-gray-700 transition-all duration-300 ease-in-out"
+        [ngClass]="{ 'w-64':(sidebarService.isHidden$ | async), 'w-16': !(sidebarService.isHidden$ | async)}">
+        <!-- Toggle Dark Mode -->
+
+        <!-- <label class="relative inline-flex items-center cursor-pointer duration-0 ease-in-out"
+            [ngClass]="{ visible: !isHidden, invisible:(sidebarService.isHidden$ | async) }">
+            <input type="checkbox" value="" class="sr-only peer" (click)="toggleDarkMode()" />
+            <div
+                class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+            </div>
+            <span class="ml-3 text-sm font-medium text-white-900 dark:text-gray-300"><i
+                    class="fas fa-moon transition-all duration-300 ease-in-out"
+                    [ngClass]="{ 'mr-2': !isHidden, 'mx-2':(sidebarService.isHidden$ | async) }">
+                </i>
+                Dark Mode</span>
+        </label> -->
+
+        <!-- Settings -->
+        <button class="flex items-center text-gray-400 hover:text-white mt-2" aria-label="Settings"
+            (click)="setToggleSidebar(false)">
+            <i class="fas fa-cog transition-all duration-300 ease-in-out"
+                [ngClass]="{ 'mr-2':(sidebarService.isHidden$ | async), 'mx-2': !(sidebarService.isHidden$ | async)}"></i>
+            <p class="transition-all ease-in-out"
+                [ngClass]="{ visible:(sidebarService.isHidden$ | async), invisible: !(sidebarService.isHidden$ | async)}">
+                Settings
+            </p>
+        </button>
+
+        <!-- Logout -->
+        <button class="flex items-center text-gray-400 hover:text-white py-4" (click)="logout()" aria-label="Logout">
+            <i class="fas fa-sign-out-alt transition-all duration-300 ease-in-out"
+                [ngClass]="{ 'mr-2':(sidebarService.isHidden$ | async), 'mx-2': !(sidebarService.isHidden$ | async)}"></i>
+            <p class="transition-all ease-in-out"
+                [ngClass]="{ visible:(sidebarService.isHidden$ | async), invisible: !(sidebarService.isHidden$ | async)}">
+                Logout
+            </p>
+        </button>
+
+
+    </div>
+</aside>

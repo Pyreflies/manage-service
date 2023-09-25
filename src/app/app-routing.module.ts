@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UsersComponent } from './users/users.component';
-import { GroupsComponent } from './groups/groups.component';
+import { UsersComponent } from './components/users/users.component';
+import { GroupsComponent } from './components/groups/groups.component';
+import { UserDetailComponent } from './components/users/user-detail/user-detail.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'users' },
   { path: 'users', component: UsersComponent, data: { title: 'Users' }  }, 
+  { path: 'users/users-setting', component: UserDetailComponent, data: { title: 'Detail' }  }, 
   { path: 'groups', component: GroupsComponent , data: { title: 'Groups' } }, 
 
   // Add more routes here

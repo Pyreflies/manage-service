@@ -3,16 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AppSidebarComponent } from './app-sidebar/app-sidebar.component';
+import { AppSidebarComponent } from './pages/app-sidebar/app-sidebar.component';
 import { FormsModule } from '@angular/forms';
-import { UsersComponent } from './users/users.component';
-import { GroupsComponent } from './groups/groups.component';
-import { NavigationComponent } from './navigation/navigation.component';
-import { UsersListComponent } from './users/users-list/users-list.component';
-import { UsersDetailComponent } from './users/users-detail/users-detail.component';
-import { TabsComponent } from './tabs/tabs.component';
-import { TabComponent } from './tab/tab.component';
+import { UsersComponent } from './components/users/users.component';
+import { GroupsComponent } from './components/groups/groups.component';
 import { ValidationService } from './services/validate.service';
+import { NavigationComponent } from './pages/navigation/navigation.component';
+import { TabsComponent } from './pages/tabs/tabs.component';
+import { TabComponent } from './pages/tab/tab.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { UserDetailComponent } from './components/users/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -21,15 +21,15 @@ import { ValidationService } from './services/validate.service';
     UsersComponent,
     GroupsComponent,
     NavigationComponent,
-    UsersListComponent,
-    UsersDetailComponent,
     TabsComponent,
     TabComponent,
+    UserDetailComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
   ],
   providers: [ValidationService],
   bootstrap: [AppComponent]
