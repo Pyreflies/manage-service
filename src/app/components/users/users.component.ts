@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Users,_user } from 'src/app/models/users.model';
+import { Users, _user } from 'src/app/models/users.model';
 import { UserService } from 'src/app/services/cservice/user.service';
+import { PermissionService } from 'src/app/services/pservice/Permission.service';
 import { SweetAlertService } from 'src/app/services/sweet-alert.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { SweetAlertService } from 'src/app/services/sweet-alert.service';
 })
 export class UsersComponent {
 
-  constructor(public sweetAlertService: SweetAlertService,private userService: UserService) { }
+  constructor(public sweetAlertService: SweetAlertService, private userService: UserService, private permissionService: PermissionService) { }
   users = _user;
   // Placeholder for users data
   usersBase: Users[] = this.users;
@@ -30,15 +31,10 @@ export class UsersComponent {
     }
     this.currentPage = 1; // Reset to first page after search
   }
-  clear(): void{
-    this.searchQuery = ""; 
+  clear(): void {
+    this.searchQuery = "";
     this.users = this.usersBase;
   }
-  // get paginatedUsers(): any[] {
-  //   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-  //   const endIndex = startIndex + this.itemsPerPage;
-  //   return this.users.slice(startIndex, endIndex);
-  // }
   delete() {
     this.sweetAlertService.confirm({
       title: 'Warning',
@@ -46,7 +42,14 @@ export class UsersComponent {
     }
     ).then((result) => {
       if (result.isConfirmed) {
-        this.sweetAlertService.success('Successfully deleted', 'Your data has been deleted')
+        this.sweetAlertService.delete({
+          title: 'Enter your password',
+          input: 'password',
+        }).then((result) => {
+          console.log(result);
+          this.sweetAlertService.success('Successfully deleted', 'Your data has been deleted')
+        });
+
       }
     })
   }
@@ -66,8 +69,15 @@ export class UsersComponent {
       return this.isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
     });
   }
-  setUser(id :string) : void{
+  setUser(id: string): void {
     this.userService.setUserId(id);
+    this.permissionService.setDisable();
+  }
+
+
+  clearUserId(): void {
+    this.userService.clearUserId();
+    this.permissionService.setActivate();
   }
   // Create a new user
   createUser() {
@@ -75,10 +85,10 @@ export class UsersComponent {
   }
 
   // Edit a user
-  editUser(user: keyof Users) {
-   // this.selectedUser = user;
+  editUser(id: string): void {
+    this.userService.setUserId(id);
+    this.permissionService.setActivate();
   }
-
   // Update a user
   updateUser() {
     // Implement update logic

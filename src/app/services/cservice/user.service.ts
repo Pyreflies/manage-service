@@ -5,17 +5,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  private userIdSubject = new BehaviorSubject<string | null>(null);
+    private userIdSubject = new BehaviorSubject<string | null>(null);
 
-  setUserId(userId: string) {
-    this.userIdSubject.next(userId);
-  }
-
-  getUserId(): Observable<string | null> {
-    return this.userIdSubject.asObservable();
-  }
+    setUserId(userId: string) {
+      this.userIdSubject.next(userId);
+    }
   
-  clearUserId() {
-    this.userIdSubject.next(null);
-  }
+    getUserId(): Observable<string | null> {
+      return this.userIdSubject.asObservable();
+    }
+
+    clearUserId() {
+      this.userIdSubject.next(null);
+    }
 }

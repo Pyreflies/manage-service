@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Roles, _roles } from 'src/app/models/roles.models';
 import { UserService } from 'src/app/services/cservice/user.service';
+import { Users, _user } from 'src/app/models/users.model';
+import { Roles, _roles } from 'src/app/models/roles.models';
+import { PermissionService } from 'src/app/services/pservice/Permission.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -8,29 +10,49 @@ import { UserService } from 'src/app/services/cservice/user.service';
   styleUrls: ['./user-detail.component.scss']
 })
 export class UserDetailComponent implements OnInit {
+  usersBase: Users[] = _user;
+  status = 'A';
+  name = '';
+  email = '';
+  selectedRoleCode: string = '';
+  roles: Roles[] = _roles;
+  activeAction : string | boolean = 'false';
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,private permissionService : PermissionService) {}
 
-  status: string = 'A';
-  name: string = '';
-  email: string = '';
+  async ngOnInit(): Promise<void> {
+    try {
+      const setUser =  this.userService.getUserId().subscribe((userId) => {
+        console.log(userId);
+        if (userId) {
+          const setUser = this.usersBase.find(user => user.id === userId);
+          if (setUser) {
+            this.name = setUser.name;
+            this.email = setUser.email;
+            this.status = setUser.status;
+            // this.role.find(code => code.code = setUser.roleCode) 
+            this.selectedRoleCode = setUser.roleCode;
+          }
+        }else{
+          this.clearSetUser();
+        }
+      });
+      setUser.unsubscribe();
 
-  roles = _roles;
+      const perm = this.permissionService.getPermission().subscribe((perm) => {
+        this.activeAction = String(perm);
+      });
+      perm.unsubscribe();
 
 
-  ngOnInit(): void {
-    // Get the user id parameter from the route
-    this.userService.getUserId().subscribe((userId) => {
-      if (userId) {
-        // Use the userId here
-        console.log("asd",userId);
-        this.userService.clearUserId(); 
-        console.log("dd",userId);
-      }
-  
-
-    });
-
-    // Now you can use this.userId in your component to fetch user details or perform other actions.
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async clearSetUser(): Promise<void> {
+    this.name = '';
+    this.email = '';
+    this.status = 'A';
+    this.selectedRoleCode = 'selected';
   }
 }

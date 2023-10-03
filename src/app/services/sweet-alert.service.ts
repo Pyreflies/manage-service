@@ -13,6 +13,18 @@ export class SweetAlertService {
         ...options,
     });
   }
+  // Show a password alert
+  delete(options: SweetAlertOptions): Promise<SweetAlertResult> {
+    return Swal.fire({
+        ...options,
+        icon: 'warning',
+        inputPlaceholder: 'Enter your password',
+        inputAttributes: {
+          autocapitalize: 'off',
+          autocorrect: 'off'
+        }
+    });
+  }
 
   // Show a confirmation dialog
   confirm(options: SweetAlertOptions): Promise<SweetAlertResult> {
